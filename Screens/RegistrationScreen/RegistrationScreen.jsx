@@ -25,6 +25,12 @@ const RegScreen = () => {
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
 
+  console.log(password);
+
+  const handleSubit = () => {
+    console.log(`${login} ${email} ${password}`);
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={regStyled.container}>
@@ -41,17 +47,20 @@ const RegScreen = () => {
                   style={isLoginFocused ? regStyled.inputFocus : regStyled.inputLogin}
                   placeholder="Логін"
                   autoComplete="username"
+                  value={login}
                   onFocus={() => {
                     setIsLoginFocused(true);
                   }}
                   onBlur={() => {
                     setIsLoginFocused(false);
                   }}
+                  onChangeText={setLogin}
                 />
                 <TextInput
                   style={isEmailFocused ? regStyled.inputFocus : regStyled.inputLogin}
                   placeholder="Адреса електронної пошти"
                   autoComplete="email"
+                  value={email}
                   placeholderTextColor="#BDBDBD"
                   onFocus={() => {
                     setIsEmailFocused(true);
@@ -59,6 +68,7 @@ const RegScreen = () => {
                   onBlur={() => {
                     setIsEmailFocused(false);
                   }}
+                  onChangeText={setEmail}
                 />
                 <View>
                   <TextInput
@@ -76,6 +86,7 @@ const RegScreen = () => {
                     onBlur={() => {
                       setIsPasswordFocused(false);
                     }}
+                    onChange={setPassword}
                   />
                   <Text style={regStyled.show}>Показати</Text>
                 </View>
@@ -83,7 +94,7 @@ const RegScreen = () => {
             </KeyboardAvoidingView>
 
             <View>
-              <Pressable style={regStyled.button}>
+              <Pressable style={regStyled.button} onPress={handleSubit}>
                 <Text style={regStyled.text}>Зареєстуватися</Text>
               </Pressable>
 

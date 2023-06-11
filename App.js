@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { useCallback } from "react";
-import { KeyboardAvoidingView } from "react-native";
+import { KeyboardAvoidingView, View } from "react-native";
 import RegScreen from "./Screens/RegistrationScreen/RegistrationScreen";
 import {
   useFonts,
@@ -9,22 +8,8 @@ import {
   Roboto_400Regular,
   Roboto_100Thin_Italic,
 } from "@expo-google-fonts/roboto";
-
-// const App = () => (
-
-// <View style={styles.container}>
-//     <RegScreen />
-//   </View>
-
-// );
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-// });
-
-// export default App;
+import LoginScreen from "./Screens/LoginScreen/LoginScreen";
+import PostsScreen from "./Screens/PostsScreen/PostsScreen";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -37,12 +22,11 @@ export default function App() {
     return null;
   }
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS == "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-      keyboardVerticalOffset={-200}
-    >
+    <View style={{ flex: 1 }}>
       <RegScreen />
-    </KeyboardAvoidingView>
+
+      {/* <LoginScreen /> */}
+      {/* <PostsScreen /> */}
+    </View>
   );
 }
