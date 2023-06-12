@@ -1,15 +1,15 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { KeyboardAvoidingView, View } from "react-native";
-import RegScreen from "./Screens/RegistrationScreen/RegistrationScreen";
+import {View, TouchableWithoutFeedback, Keyboard } from "react-native";
 import {
   useFonts,
   Roboto_500Medium,
   Roboto_400Regular,
   Roboto_100Thin_Italic,
 } from "@expo-google-fonts/roboto";
-import LoginScreen from "./Screens/LoginScreen/LoginScreen";
-import PostsScreen from "./Screens/PostsScreen/PostsScreen";
+import RegScreen from "./src/Screens/RegistrationScreen";
+import LoginScreen from "./src/Screens/LoginScreen";
+import PostsScreen from "./src/Screens/PostsScreen";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -22,11 +22,13 @@ export default function App() {
     return null;
   }
   return (
-    <View style={{ flex: 1 }}>
-      <RegScreen />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={{ flex: 1 }}>
+        {/* <RegScreen /> */}
 
-      {/* <LoginScreen /> */}
-      {/* <PostsScreen /> */}
-    </View>
+        <LoginScreen /> 
+        {/* <PostsScreen /> */}
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
