@@ -7,12 +7,11 @@ import {
   View,
   TextInput,
   Pressable,
-  keyboardType,
-  Keyboard,
   KeyboardAvoidingView,
   Platform,
+  Button,
 } from "react-native";
-import BG from "./img/background.png";
+import BG from "../../assets/img/background.png";
 import { AntDesign } from "@expo/vector-icons";
 
 const RegScreen = () => {
@@ -20,10 +19,15 @@ const RegScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFocused, setIsFocused] = useState("");
+  const [isPasswordShow, setIsPasswordShow] = useState(false);
 
   const handleSubmit = () => {
     console.log(`${login} ${email} ${password}`);
   };
+
+  function toggle() {
+    setIsPasswordShow(true);
+  }
 
   return (
     <KeyboardAvoidingView
@@ -77,7 +81,7 @@ const RegScreen = () => {
                   placeholder="Пароль"
                   autoComplete="password"
                   placeholderTextColor="#BDBDBD"
-                  secureTextEntry
+                  secureTextEntry={isPasswordShow ? false : true}
                   onFocus={() => {
                     setIsFocused("Password");
                   }}
@@ -86,7 +90,23 @@ const RegScreen = () => {
                   }}
                   onChange={setPassword}
                 />
-                <Text style={regStyled.show}>Показати</Text>
+
+                <View style={regStyled.show}>
+                  <Button
+                    title={isPasswordShow ? "Скрити" : "Показати"}
+                    color="#1B4371"
+                    disabled={password ? false : true}
+                    onPress={
+                      isPasswordShow
+                        ? () => {
+                            setIsPasswordShow(false);
+                          }
+                        : () => {
+                            setIsPasswordShow(true);
+                          }
+                    }
+                  />
+                </View>
               </View>
             </View>
 
@@ -138,7 +158,7 @@ const regStyled = StyleSheet.create({
   },
   back: {
     position: "relative",
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     width: "100%",
     height: 549,
     borderTopLeftRadius: 25,
@@ -177,21 +197,10 @@ const regStyled = StyleSheet.create({
 
   show: {
     position: "absolute",
-    top: 16,
+    top: 6,
     right: 16,
-    fontFamily: "Roboto_400Regular",
-    fontSize: 16,
-    lineHeight: 19,
-    color: "#1B4371",
   },
-  buttonReg: {
-    width: 343,
-    height: 32,
-    padding: 32,
-    marginTop: 46,
-    backgroundColor: "red",
-    color: "#red",
-  },
+
   button: {
     width: 343,
     alignItems: "center",
@@ -205,7 +214,7 @@ const regStyled = StyleSheet.create({
     fontFamily: "Roboto_400Regular",
     fontSize: 16,
     lineHeight: 19,
-    color: "white",
+    color: "#fff",
   },
   textQuestionAccount: {
     fontFamily: "Roboto_400Regular",

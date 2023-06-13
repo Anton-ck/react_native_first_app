@@ -9,13 +9,15 @@ import {
   Pressable,
   KeyboardAvoidingView,
   Platform,
+  Button,
 } from "react-native";
-import BG from "./img/background.png";
+import BG from "../../assets/img/background.png";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isFocused, setIsFocused] = useState("");
+  const [isPasswordShow, setIsPasswordShow] = useState(false);
 
   return (
     <KeyboardAvoidingView
@@ -61,13 +63,35 @@ const LoginScreen = () => {
                   }}
                   onChange={setPassword}
                 />
-                <Text style={LoginStyled.show}>Показати</Text>
+                <View style={LoginStyled.show}>
+                  <Button
+                    title={isPasswordShow ? "Скрити" : "Показати"}
+                    color="#1B4371"
+                    disabled={password ? false : true}
+                    onPress={
+                      isPasswordShow
+                        ? () => {
+                            setIsPasswordShow(false);
+                          }
+                        : () => {
+                            setIsPasswordShow(true);
+                          }
+                    }
+                  />
+                </View>
               </View>
             </View>
 
             <View>
-              <Pressable style={LoginStyled.button}>
-                <Text style={LoginStyled.text}>Увійти </Text>
+              <Pressable
+                style={({ pressed }) => [
+                  {
+                    backgroundColor: pressed ? "#ff6a006c" : "#FF6C00",
+                  },
+                  LoginStyled.button,
+                ]}
+              >
+                <Text style={LoginStyled.text}>Увійти</Text>
               </Pressable>
 
               <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
@@ -95,7 +119,7 @@ const LoginStyled = StyleSheet.create({
 
   back: {
     position: "relative",
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     width: "100%",
     height: 489,
     borderTopLeftRadius: 25,
@@ -134,21 +158,10 @@ const LoginStyled = StyleSheet.create({
 
   show: {
     position: "absolute",
-    top: 16,
+    top: 6,
     right: 16,
-    fontFamily: "Roboto_400Regular",
-    fontSize: 16,
-    lineHeight: 19,
-    color: "#1B4371",
   },
-  buttonReg: {
-    width: 343,
-    height: 32,
-    padding: 32,
-    marginTop: 46,
-    backgroundColor: "red",
-    color: "#red",
-  },
+
   button: {
     width: 343,
     alignItems: "center",
@@ -157,15 +170,13 @@ const LoginStyled = StyleSheet.create({
     paddingHorizontal: 32,
     marginBottom: 16,
     borderRadius: 100,
-
-    backgroundColor: "#FF6C00",
   },
   text: {
     fontFamily: "Roboto_400Regular",
     fontSize: 16,
     lineHeight: 19,
 
-    color: "white",
+    color: "#fff",
   },
   textQuestionAccount: {
     fontFamily: "Roboto_400Regular",

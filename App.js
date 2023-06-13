@@ -24,9 +24,9 @@ export default function App() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ flex: 1 }}>
-        {/* <RegScreen /> */}
+        <RegScreen />
 
-        <LoginScreen /> 
+        {/* <LoginScreen />  */}
         {/* <PostsScreen /> */}
       </View>
     </TouchableWithoutFeedback>
