@@ -25,10 +25,6 @@ const RegScreen = () => {
     console.log(`${login} ${email} ${password}`);
   };
 
-  function toggle() {
-    setIsPasswordShow(true);
-  }
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -91,22 +87,9 @@ const RegScreen = () => {
                   onChange={setPassword}
                 />
 
-                <View style={regStyled.show}>
-                  <Button
-                    title={isPasswordShow ? "Скрити" : "Показати"}
-                    color="#1B4371"
-                    disabled={password ? false : true}
-                    onPress={
-                      isPasswordShow
-                        ? () => {
-                            setIsPasswordShow(false);
-                          }
-                        : () => {
-                            setIsPasswordShow(true);
-                          }
-                    }
-                  />
-                </View>
+                <Text style={regStyled.show} onPress={() => setIsPasswordShow(!isPasswordShow)}>
+                  {isPasswordShow ? "Сховати" : "Показати"}
+                </Text>
               </View>
             </View>
 
@@ -197,8 +180,12 @@ const regStyled = StyleSheet.create({
 
   show: {
     position: "absolute",
-    top: 6,
+    top: 16,
     right: 16,
+    fontFamily: "Roboto_400Regular",
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#1B4371",
   },
 
   button: {

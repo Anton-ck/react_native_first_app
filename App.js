@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import {View, TouchableWithoutFeedback, Keyboard } from "react-native";
 import {
@@ -24,9 +23,9 @@ export default function App() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ flex: 1 }}>
-        <RegScreen />
+        {/* <RegScreen /> */}
 
-        {/* <LoginScreen />  */}
+        <LoginScreen /> 
         {/* <PostsScreen /> */}
       </View>
     </TouchableWithoutFeedback>

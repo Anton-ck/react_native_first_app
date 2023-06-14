@@ -19,6 +19,10 @@ const LoginScreen = () => {
   const [isFocused, setIsFocused] = useState("");
   const [isPasswordShow, setIsPasswordShow] = useState(false);
 
+  const handleSubmit = () => {
+    console.log(`${email} ${password}`);
+  };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -54,7 +58,7 @@ const LoginScreen = () => {
                   placeholder="Пароль"
                   autoComplete="password"
                   placeholderTextColor="#BDBDBD"
-                  secureTextEntry
+                  secureTextEntry={isPasswordShow ? false : true}
                   onFocus={() => {
                     setIsFocused("Password");
                   }}
@@ -63,27 +67,15 @@ const LoginScreen = () => {
                   }}
                   onChange={setPassword}
                 />
-                <View style={LoginStyled.show}>
-                  <Button
-                    title={isPasswordShow ? "Скрити" : "Показати"}
-                    color="#1B4371"
-                    disabled={password ? false : true}
-                    onPress={
-                      isPasswordShow
-                        ? () => {
-                            setIsPasswordShow(false);
-                          }
-                        : () => {
-                            setIsPasswordShow(true);
-                          }
-                    }
-                  />
-                </View>
+                <Text style={LoginStyled.show} onPress={() => setIsPasswordShow(!isPasswordShow)}>
+                  {isPasswordShow ? "Сховати" : "Показати"}
+                </Text>
               </View>
             </View>
 
             <View>
               <Pressable
+                onPress={handleSubmit}
                 style={({ pressed }) => [
                   {
                     backgroundColor: pressed ? "#ff6a006c" : "#FF6C00",
@@ -97,7 +89,9 @@ const LoginScreen = () => {
               <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
                 <Text style={LoginStyled.textQuestionAccount}>Немає акаунту?</Text>
                 <Pressable>
-                  <Text style={LoginStyled.textQuestionAccountBtn}>Увійти </Text>
+                  <Text style={LoginStyled.textQuestionAccountBtn}>
+                   Зареєструватися
+                  </Text>
                 </Pressable>
               </View>
             </View>
@@ -158,8 +152,12 @@ const LoginStyled = StyleSheet.create({
 
   show: {
     position: "absolute",
-    top: 6,
+    top: 16,
     right: 16,
+    fontFamily: "Roboto_400Regular",
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#1B4371",
   },
 
   button: {
