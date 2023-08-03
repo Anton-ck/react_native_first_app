@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import {
   StyleSheet,
   ImageBackground,
@@ -19,8 +20,11 @@ const LoginScreen = () => {
   const [isFocused, setIsFocused] = useState("");
   const [isPasswordShow, setIsPasswordShow] = useState(false);
 
+  const navigation = useNavigation();
+
   const handleSubmit = () => {
     console.log(`${email} ${password}`);
+    navigation.navigate("PostsTab");
   };
 
   return (
@@ -89,8 +93,11 @@ const LoginScreen = () => {
               <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
                 <Text style={LoginStyled.textQuestionAccount}>Немає акаунту?</Text>
                 <Pressable>
-                  <Text style={LoginStyled.textQuestionAccountBtn}>
-                   Зареєструватися
+                  <Text
+                    style={LoginStyled.textQuestionAccountBtn}
+                    onPress={() => navigation.navigate("Registration")}
+                  >
+                    Зареєструватися
                   </Text>
                 </Pressable>
               </View>

@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import BG from "../../assets/img/background.png";
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const RegScreen = () => {
   const [login, setLogin] = useState("");
@@ -21,8 +22,11 @@ const RegScreen = () => {
   const [isFocused, setIsFocused] = useState("");
   const [isPasswordShow, setIsPasswordShow] = useState(false);
 
+  const navigation = useNavigation();
+
   const handleSubmit = () => {
     console.log(`${login} ${email} ${password}`);
+    navigation.navigate("PostsTab");
   };
 
   return (
@@ -33,7 +37,6 @@ const RegScreen = () => {
     >
       <View style={regStyled.container}>
         <ImageBackground source={BG} resizeMode="cover" style={regStyled.image}>
-          {/* <View style={{ ...regStyled.back, height: isKeyboard ? 349 : 549 }}> */}
           <View style={regStyled.back}>
             <View style={regStyled.avatar}>
               <AntDesign name="pluscircleo" size={25} style={regStyled.iconPlus} />
@@ -106,7 +109,17 @@ const RegScreen = () => {
                 <Text style={regStyled.text}>Зареєстуватися</Text>
               </Pressable>
 
-              <Text style={regStyled.textQuestionAccount}>Вже є акаунт? Увійти</Text>
+              <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                <Text style={regStyled.textQuestionAccount}>Вже є акаунт?</Text>
+                <Text
+                  style={[regStyled.textQuestionAccount, { marginLeft: 5 }]}
+                  onPress={() => {
+                    navigation.navigate("Login");
+                  }}
+                >
+                  Увійти
+                </Text>
+              </View>
             </View>
           </View>
         </ImageBackground>

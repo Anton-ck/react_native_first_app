@@ -1,14 +1,14 @@
+import "react-native-gesture-handler";
 import React from "react";
-import {View, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { View, TouchableWithoutFeedback, Keyboard } from "react-native";
 import {
   useFonts,
   Roboto_500Medium,
   Roboto_400Regular,
   Roboto_100Thin_Italic,
 } from "@expo-google-fonts/roboto";
-import RegScreen from "./src/Screens/RegistrationScreen";
-import LoginScreen from "./src/Screens/LoginScreen";
-import PostsScreen from "./src/Screens/PostsScreen";
+import { AppNavigation } from "./src/Routes/AppNavigation";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -20,14 +20,16 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-  return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={{ flex: 1 }}>
-        {/* <RegScreen /> */}
 
-        <LoginScreen /> 
-        {/* <PostsScreen /> */}
-      </View>
-    </TouchableWithoutFeedback>
+  return (
+    <>
+      <NavigationContainer>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={{ flex: 1 }}>
+            <AppNavigation />
+          </View>
+        </TouchableWithoutFeedback>
+      </NavigationContainer>
+    </>
   );
 }
