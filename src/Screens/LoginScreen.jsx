@@ -24,7 +24,15 @@ const LoginScreen = () => {
 
   const handleSubmit = () => {
     console.log(`${email} ${password}`);
-    navigation.navigate("PostsTab");
+    // navigation.navigate("PostsTab");
+
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "PostsTab" }],
+    });
+
+    setEmail(null);
+    setPassword(null);
   };
 
   return (
@@ -91,14 +99,17 @@ const LoginScreen = () => {
               </Pressable>
 
               <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                <Text style={LoginStyled.textQuestionAccount}>Немає акаунту?</Text>
-                <Pressable>
-                  <Text
-                    style={LoginStyled.textQuestionAccountBtn}
-                    onPress={() => navigation.navigate("Registration")}
-                  >
-                    Зареєструватися
-                  </Text>
+                <Pressable
+                  onPress={() => navigation.navigate("Registration")}
+                  style={({ pressed }) => [
+                    { display: "flex", flexDirection: "row" },
+                    {
+                      backgroundColor: pressed ? "rgb(210, 230, 255)" : "white",
+                    },
+                  ]}
+                >
+                  <Text style={LoginStyled.textQuestionAccount}>Немає акаунту?</Text>
+                  <Text style={LoginStyled.textQuestionAccountBtn}>Зареєструватися</Text>
                 </Pressable>
               </View>
             </View>
@@ -121,11 +132,10 @@ const LoginStyled = StyleSheet.create({
   back: {
     position: "relative",
     backgroundColor: "#fff",
-    width: "100%",
-    height: 489,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     alignItems: "center",
+    paddingBottom: 144,
   },
   textLoginAccount: {
     fontFamily: "Roboto_500Medium",
@@ -173,6 +183,7 @@ const LoginStyled = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 16,
     paddingHorizontal: 32,
+    marginTop: 43,
     marginBottom: 16,
     borderRadius: 100,
   },

@@ -26,7 +26,14 @@ const RegScreen = () => {
 
   const handleSubmit = () => {
     console.log(`${login} ${email} ${password}`);
-    navigation.navigate("PostsTab");
+    // navigation.navigate("PostsTab");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "PostsTab" }],
+    });
+    setLogin(null);
+    setEmail(null);
+    setPassword(null);
   };
 
   return (
@@ -110,14 +117,13 @@ const RegScreen = () => {
               </Pressable>
 
               <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                <Text style={regStyled.textQuestionAccount}>Вже є акаунт?</Text>
                 <Text
                   style={[regStyled.textQuestionAccount, { marginLeft: 5 }]}
                   onPress={() => {
                     navigation.navigate("Login");
                   }}
                 >
-                  Увійти
+                  Вже є акаунт? Увійти
                 </Text>
               </View>
             </View>
@@ -155,11 +161,11 @@ const regStyled = StyleSheet.create({
   back: {
     position: "relative",
     backgroundColor: "#fff",
-    width: "100%",
-    height: 549,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     alignItems: "center",
+    paddingTop: 92,
+    paddingBottom: 78,
   },
   textRegAccount: {
     fontFamily: "Roboto_500Medium",
@@ -168,7 +174,6 @@ const regStyled = StyleSheet.create({
     lineHeight: 35,
     textAlign: "center",
     letterSpacing: 1,
-    marginTop: 92,
     marginBottom: 32,
   },
   input: {
@@ -207,6 +212,7 @@ const regStyled = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 16,
     paddingHorizontal: 32,
+    marginTop: 43,
     marginBottom: 16,
     borderRadius: 100,
   },

@@ -28,29 +28,6 @@ export const AppNavigation = () => {
           headerShown: false,
         }}
       />
-      {/* <Stack.Screen
-        name="Posts"
-        component={PostsScreen}
-        options={{
-          title: "Публікації",
-          headerShown: true,
-
-          headerStyle: {
-            height: 99,
-          },
-          headerTitleStyle: {
-            fontSize: 17,
-            fontFamily: "Roboto_500Medium",
-            lineHeight: 22,
-            textAlign: "center",
-            paddingTop: 11,
-            paddingBottom: 11,
-            paddingLeft: 48,
-            paddingRight: 49,
-          },
-          headerRight: () => <LogoutBtn />,
-        }}
-      /> */}
       <Stack.Screen
         name="PostsTab"
         component={PostsTab}

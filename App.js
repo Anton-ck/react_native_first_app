@@ -4,8 +4,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { View, TouchableWithoutFeedback, Keyboard } from "react-native";
 import {
   useFonts,
+  Roboto_700Bold,
   Roboto_500Medium,
   Roboto_400Regular,
+  Roboto_300Light,
   Roboto_100Thin_Italic,
 } from "@expo-google-fonts/roboto";
 import { AppNavigation } from "./src/Routes/AppNavigation";
@@ -15,6 +17,8 @@ export default function App() {
     Roboto_500Medium,
     Roboto_400Regular,
     Roboto_100Thin_Italic,
+    Roboto_700Bold,
+    Roboto_300Light,
   });
 
   if (!fontsLoaded) {
