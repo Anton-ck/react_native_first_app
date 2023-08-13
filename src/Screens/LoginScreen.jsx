@@ -24,7 +24,6 @@ const LoginScreen = () => {
 
   const handleSubmit = () => {
     console.log(`${email} ${password}`);
-    // navigation.navigate("PostsTab");
 
     navigation.reset({
       index: 0,
@@ -46,7 +45,7 @@ const LoginScreen = () => {
           <View style={LoginStyled.back}>
             <Text style={LoginStyled.textLoginAccount}>Увійти</Text>
 
-            <View>
+            <View style={LoginStyled.formContainer}>
               <TextInput
                 style={[LoginStyled.input, isFocused === "Email" && LoginStyled.inputFocus]}
                 placeholder="Адреса електронної пошти"
@@ -83,34 +82,33 @@ const LoginScreen = () => {
                   {isPasswordShow ? "Сховати" : "Показати"}
                 </Text>
               </View>
-            </View>
-
-            <View>
-              <Pressable
-                onPress={handleSubmit}
-                style={({ pressed }) => [
-                  {
-                    backgroundColor: pressed ? "#ff6a006c" : "#FF6C00",
-                  },
-                  LoginStyled.button,
-                ]}
-              >
-                <Text style={LoginStyled.text}>Увійти</Text>
-              </Pressable>
-
-              <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+              <View>
                 <Pressable
-                  onPress={() => navigation.navigate("Registration")}
+                  onPress={handleSubmit}
                   style={({ pressed }) => [
-                    { display: "flex", flexDirection: "row" },
                     {
-                      backgroundColor: pressed ? "rgb(210, 230, 255)" : "white",
+                      backgroundColor: pressed ? "#ff6a006c" : "#FF6C00",
                     },
+                    LoginStyled.button,
                   ]}
                 >
-                  <Text style={LoginStyled.textQuestionAccount}>Немає акаунту?</Text>
-                  <Text style={LoginStyled.textQuestionAccountBtn}>Зареєструватися</Text>
+                  <Text style={LoginStyled.text}>Увійти</Text>
                 </Pressable>
+
+                <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                  <Pressable
+                    onPress={() => navigation.navigate("Registration")}
+                    style={({ pressed }) => [
+                      { display: "flex", flexDirection: "row" },
+                      {
+                        backgroundColor: pressed ? "rgb(210, 230, 255)" : "white",
+                      },
+                    ]}
+                  >
+                    <Text style={LoginStyled.textQuestionAccount}>Немає акаунту?</Text>
+                    <Text style={LoginStyled.textQuestionAccountBtn}>Зареєструватися</Text>
+                  </Pressable>
+                </View>
               </View>
             </View>
           </View>
@@ -134,7 +132,6 @@ const LoginStyled = StyleSheet.create({
     backgroundColor: "#fff",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    alignItems: "center",
     paddingBottom: 144,
   },
   textLoginAccount: {
@@ -147,11 +144,11 @@ const LoginStyled = StyleSheet.create({
     marginTop: 32,
     marginBottom: 32,
   },
+  formContainer: { marginHorizontal: 16 },
   input: {
     paddingBottom: 15,
     paddingTop: 16,
     paddingLeft: 16,
-    width: 343,
     height: 50,
     borderWidth: 1,
     marginBottom: 16,
@@ -178,7 +175,6 @@ const LoginStyled = StyleSheet.create({
   },
 
   button: {
-    width: 343,
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 16,
@@ -212,3 +208,5 @@ const LoginStyled = StyleSheet.create({
 });
 
 export default LoginScreen;
+
+

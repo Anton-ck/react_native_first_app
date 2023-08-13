@@ -26,7 +26,6 @@ const RegScreen = () => {
 
   const handleSubmit = () => {
     console.log(`${login} ${email} ${password}`);
-    // navigation.navigate("PostsTab");
     navigation.reset({
       index: 0,
       routes: [{ name: "PostsTab" }],
@@ -50,7 +49,7 @@ const RegScreen = () => {
             </View>
             <Text style={regStyled.textRegAccount}>Реєстрація</Text>
 
-            <View>
+            <View style={{marginHorizontal: 16}}>
               <TextInput
                 style={[regStyled.input, isFocused === "Login" && regStyled.inputFocus]}
                 placeholder="Логін"
@@ -101,30 +100,29 @@ const RegScreen = () => {
                   {isPasswordShow ? "Сховати" : "Показати"}
                 </Text>
               </View>
-            </View>
-
-            <View>
-              <Pressable
-                onPress={handleSubmit}
-                style={({ pressed }) => [
-                  {
-                    backgroundColor: pressed ? "#ff6a006c" : "#FF6C00",
-                  },
-                  regStyled.button,
-                ]}
-              >
-                <Text style={regStyled.text}>Зареєстуватися</Text>
-              </Pressable>
-
-              <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-                <Text
-                  style={[regStyled.textQuestionAccount, { marginLeft: 5 }]}
-                  onPress={() => {
-                    navigation.navigate("Login");
-                  }}
+              <View>
+                <Pressable
+                  onPress={handleSubmit}
+                  style={({ pressed }) => [
+                    {
+                      backgroundColor: pressed ? "#ff6a006c" : "#FF6C00",
+                    },
+                    regStyled.button,
+                  ]}
                 >
-                  Вже є акаунт? Увійти
-                </Text>
+                  <Text style={regStyled.text}>Зареєстуватися</Text>
+                </Pressable>
+
+                <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                  <Text
+                    style={[regStyled.textQuestionAccount, { marginLeft: 5 }]}
+                    onPress={() => {
+                      navigation.navigate("Login");
+                    }}
+                  >
+                    Вже є акаунт? Увійти
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
@@ -163,7 +161,6 @@ const regStyled = StyleSheet.create({
     backgroundColor: "#fff",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    alignItems: "center",
     paddingTop: 92,
     paddingBottom: 78,
   },
@@ -180,7 +177,6 @@ const regStyled = StyleSheet.create({
     paddingBottom: 15,
     paddingTop: 16,
     paddingLeft: 16,
-    width: 343,
     height: 50,
     borderWidth: 1,
     marginBottom: 16,
@@ -207,7 +203,6 @@ const regStyled = StyleSheet.create({
   },
 
   button: {
-    width: 343,
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 16,

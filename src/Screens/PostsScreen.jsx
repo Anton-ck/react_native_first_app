@@ -3,10 +3,11 @@ import Posts from "../Components/Posts";
 
 const PostsScreen = () => {
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
+    <View style={{ backgroundColor: "#fff" }}>
       <Posts />
     </View>
   );
 };
 
 export default PostsScreen;
+

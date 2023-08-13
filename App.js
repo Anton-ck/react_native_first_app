@@ -24,14 +24,11 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-
   return (
     <>
       <NavigationContainer>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={{ flex: 1 }}>
-            <AppNavigation />
-          </View>
+          <AppNavigation />
         </TouchableWithoutFeedback>
       </NavigationContainer>
     </>

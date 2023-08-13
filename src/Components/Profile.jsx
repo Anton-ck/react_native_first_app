@@ -1,54 +1,103 @@
-import { View, Text, Image, StyleSheet, ImageBackground } from "react-native";
-import { Feather, AntDesign, Fontisto, EvilIcons } from "@expo/vector-icons";
+import { View, Text, Image, StyleSheet, ImageBackground, FlatList } from "react-native";
+import { Feather, AntDesign } from "@expo/vector-icons";
 import BG from "../../assets/img/background.png";
-import SvgXml from "./Close";
 import LogoutBtn from "./LogoutButton";
+
+const DATA = [
+  {
+    id: "1",
+    image: require("../../assets/img/post1.jpeg"),
+    pictureName: "Ліс",
+    commentsCount: "0",
+    location: "Ukraine",
+  },
+  {
+    id: "2",
+    image: require("../../assets/img/post2.jpeg"),
+    pictureName: "Захід на чорному морі",
+    commentsCount: "0",
+    location: "Ukraine",
+  },
+  {
+    id: "3",
+    image: require("../../assets/img/post2.jpeg"),
+    pictureName: "Захід на чорному морі",
+    commentsCount: "0",
+    location: "Ukraine",
+  },
+  {
+    id: "4",
+    image: require("../../assets/img/post2.jpeg"),
+    pictureName: "Захід на чорному морі",
+    commentsCount: "0",
+    location: "Ukraine",
+  },
+];
+
+const Post = ({ image, pictureName, commentsCount, location }) => (
+  <View style={profileDataStyled.postContainer}>
+    <Image source={image} style={profileDataStyled.imageStyle} />
+    <Text style={profileDataStyled.pictureName}>{pictureName}</Text>
+    <View style={profileDataStyled.infoBlock}>
+      <View style={profileDataStyled.infoContainer}>
+        <Feather name="message-circle" size={24} style={profileDataStyled.commentsIcon} />
+        <Text style={profileDataStyled.commentsCount}>{commentsCount}</Text>
+        <Feather name="thumbs-up" size={22} color="#FF6C00" />
+        <Text style={profileDataStyled.commentsCount}>153</Text>
+      </View>
+      <View style={profileDataStyled.infoContainer}>
+        <Feather name="map-pin" size={24} color="#BDBDBD" />
+        <Text style={profileDataStyled.location}>{location}</Text>
+      </View>
+    </View>
+  </View>
+);
+
+const ProfileContainer = () => (
+  <>
+    <View style={profileDataStyled.avatar}>
+      <Image
+        source={require("../../assets/img/ProfileImg/romanova.jpeg")}
+        style={{
+          width: 120,
+          height: 120,
+          borderRadius: 16,
+        }}
+      />
+
+      <View style={profileDataStyled.iconClose}>
+        <AntDesign name="closecircleo" size={25} color="#BDBDBD" />
+      </View>
+      <View style={profileDataStyled.iconExit}>
+        <LogoutBtn />
+      </View>
+    </View>
+
+    <Text style={profileDataStyled.name}>Natali Romanova</Text>
+  </>
+);
 
 const Profile = () => {
   return (
     <View style={profileDataStyled.container}>
       <ImageBackground source={BG} resizeMode="cover" style={profileDataStyled.backgroundImage}>
         <View style={profileDataStyled.back}>
-          <View style={profileDataStyled.avatar}>
-            <Image
-              source={require("../../assets/img/ProfileImg/romanova.jpeg")}
-              style={{
-                width: 120,
-                height: 120,
-                borderRadius: 16,
-              }}
+          <View>
+            <ProfileContainer />
+            <FlatList
+              data={DATA}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <>
+                  <Post
+                    image={item.image}
+                    pictureName={item.pictureName}
+                    commentsCount={item.commentsCount}
+                    location={item.location}
+                  />
+                </>
+              )}
             />
-
-            <View style={profileDataStyled.iconPlus}>
-              <SvgXml />
-            </View>
-            <View style={profileDataStyled.iconExit}>
-              <LogoutBtn />
-            </View>
-          </View>
-          <Text style={profileDataStyled.name}>Natali Romanova</Text>
-          <View style={profileDataStyled.postContainer}>
-            <Image
-              source={require("../../assets/img/post1.jpeg")}
-              style={{
-                width: 343,
-                height: 240,
-                borderRadius: 8,
-              }}
-            />
-            <Text style={profileDataStyled.pictureName}>Ліс</Text>
-            <View style={profileDataStyled.infoBlock}>
-              <View style={profileDataStyled.infoContainer}>
-                <Feather name="message-circle" size={24} style={profileDataStyled.commentsIcon} />
-                <Text style={profileDataStyled.commentsCount}>8</Text>
-                <Feather name="thumbs-up" size={22} color="#FF6C00" />
-                <Text style={profileDataStyled.commentsCount}>153</Text>
-              </View>
-              <View style={profileDataStyled.infoContainer}>
-                <Feather name="map-pin" size={24} color="#BDBDBD" />
-                <Text style={profileDataStyled.location}> Ukraine</Text>
-              </View>
-            </View>
           </View>
         </View>
       </ImageBackground>
@@ -67,30 +116,28 @@ const profileDataStyled = StyleSheet.create({
     justifyContent: "flex-end",
   },
   avatar: {
+    alignSelf: "center",
     position: "absolute",
     width: 120,
     height: 120,
     backgroundColor: "#F6F6F6",
     borderRadius: 16,
-    top: -60,
-    marginLeft: "auto",
-    marginRight: "auto",
+    top: -150,
   },
   name: {
+    alignSelf: "center",
     fontFamily: "Roboto_500Medium",
     fontSize: 30,
     lineHeight: 35,
     color: "#212121",
+    paddingBottom: 24,
   },
-  iconPlus: {
+  iconClose: {
     position: "absolute",
-    color: "#BDBDBD",
     backgroundColor: "#fff",
     borderRadius: 15,
     bottom: 14,
     right: "-10%",
-    borderWidth: 1,
-    borderColor: "#BDBDBD",
   },
   iconExit: {
     position: "absolute",
@@ -98,42 +145,24 @@ const profileDataStyled = StyleSheet.create({
     right: "-110%",
   },
   back: {
+    top: "30%",
     position: "relative",
     backgroundColor: "#fff",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    alignItems: "center",
     paddingTop: 92,
     paddingBottom: 78,
   },
-  profileContainer: {
-    display: "flex",
-    flexDirection: "row",
-    marginTop: 32,
-    marginLeft: 16,
-  },
-  profileTextContainer: {
-    justifyContent: "center",
-    marginLeft: 8,
-  },
-  profileName: {
-    fontFamily: "Roboto_700Bold",
-    fontSize: 13,
-    lineHeight: 15,
-  },
-  profileEmail: {
-    fontFamily: "Roboto_300Light",
-    fontSize: 11,
-    lineHeight: 13,
-  },
+
   postContainer: {
     display: "flex",
-    alignSelf: "center",
     justifyContent: "center",
-    marginTop: 32,
+    alignContent: "center",
+    marginBottom: 36,
+    marginHorizontal: 16,
   },
   imageStyle: {
-    width: 343,
+    width: "100%",
     height: 240,
     borderRadius: 8,
   },

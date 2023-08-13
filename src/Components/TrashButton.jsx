@@ -14,8 +14,7 @@ export default TrashButton;
 const trashIconStyled = StyleSheet.create({
   background: {
     display: "flex",
-    // marginTop: 120,
-    marginBottom: 34,
+    marginVertical: 24,
     width: 70,
     height: 40,
     borderRadius: 20,

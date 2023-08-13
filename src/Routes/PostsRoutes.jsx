@@ -16,7 +16,7 @@ export const PostsTab = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="PostsScreen"
+      // initialRouteName="PostsScreen"
       screenOptions={{
         headerTitleAlign: "center",
         tabBarShowLabel: false,
@@ -27,6 +27,7 @@ export const PostsTab = () => {
           paddingTop: 10,
           paddingLeft: 60,
           paddingRight: 60,
+          paddingBottom: 0,
         },
         tabBarBadgeStyle: { height: 99 },
         tabBarActiveTintColor: "#FFFFFF",
@@ -91,4 +92,3 @@ const styles = {
     textAlign: "center",
   },
 };
-
