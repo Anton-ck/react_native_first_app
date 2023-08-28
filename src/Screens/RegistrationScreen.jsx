@@ -9,7 +9,6 @@ import {
   Pressable,
   KeyboardAvoidingView,
   Platform,
-  Button,
 } from "react-native";
 import BG from "../../assets/img/background.png";
 import { AntDesign } from "@expo/vector-icons";
@@ -49,7 +48,7 @@ const RegScreen = () => {
             </View>
             <Text style={regStyled.textRegAccount}>Реєстрація</Text>
 
-            <View style={{marginHorizontal: 16}}>
+            <View style={{ marginHorizontal: 16 }}>
               <TextInput
                 style={[regStyled.input, isFocused === "Login" && regStyled.inputFocus]}
                 placeholder="Логін"
@@ -142,13 +141,12 @@ const regStyled = StyleSheet.create({
   },
   avatar: {
     position: "absolute",
+    alignSelf: "center",
     width: 120,
     height: 120,
     backgroundColor: "#F6F6F6",
     borderRadius: 16,
     top: -60,
-    marginLeft: "auto",
-    marginRight: "auto",
   },
   iconPlus: {
     position: "absolute",

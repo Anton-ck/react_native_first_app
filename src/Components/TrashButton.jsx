@@ -1,11 +1,15 @@
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
-const TrashButton = () => {
+const TrashButton = ({ toogle, color, bcolor, del }) => {
   return (
-    <View style={trashIconStyled.background}>
-      <Feather name="trash-2" size={24} color="#BDBDBD" />
-    </View>
+    <TouchableOpacity
+      style={[trashIconStyled.background, { backgroundColor: bcolor }]}
+      disabled={toogle}
+      onPress={del}
+    >
+      <Feather name="trash-2" size={24} color={color} />
+    </TouchableOpacity>
   );
 };
 
@@ -14,11 +18,11 @@ export default TrashButton;
 const trashIconStyled = StyleSheet.create({
   background: {
     display: "flex",
-    marginVertical: 24,
+    position: "absolute",
+    bottom: 22,
     width: 70,
     height: 40,
     borderRadius: 20,
-    backgroundColor: "#F6F6F6",
     justifyContent: "center",
     alignSelf: "center",
     alignItems: "center",

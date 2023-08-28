@@ -10,7 +10,6 @@ import {
   Pressable,
   KeyboardAvoidingView,
   Platform,
-  Button,
 } from "react-native";
 import BG from "../../assets/img/background.png";
 

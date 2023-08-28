@@ -1,45 +1,165 @@
-import { View, Text, TextInput, StyleSheet, Dimensions, Pressable } from "react-native";
-
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Pressable,
+  TouchableOpacity,
+  Button,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Camera, CameraType } from "expo-camera";
 import { FontAwesome, Feather } from "@expo/vector-icons";
+import { useState, useEffect } from "react";
+import * as Location from "expo-location";
+
+import TrashButton from "../Components/TrashButton";
 
 const CreatePost = () => {
+  const [camera, setCamera] = useState(null);
+  const [photo, setPhoto] = useState("");
+  const [photoName, setPhotoName] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [locationName, setLocationName] = useState(null);
+  // const [type, setType] = useState(CameraType.back);
+  const [permission, requestPermission] = Camera.useCameraPermissions();
+
+  const navigation = useNavigation();
+
+  const resetState = () => {
+    setPhoto(null);
+    setPhotoName(null);
+    setLocationName(null);
+  };
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+      setLocation(coords);
+    })();
+  }, []);
+
+  if (!permission) {
+    return <View />;
+  }
+
+  if (!permission.granted) {
+    return (
+      <View>
+        <Text style={{ textAlign: "center" }}>We need your permission to show the camera</Text>
+        <Button onPress={requestPermission} title="grant permission" />
+      </View>
+    );
+  }
+
+  const takePhoto = async () => {
+    const photo = await camera.takePictureAsync();
+    const location = await Location.getCurrentPositionAsync();
+    // console.log(location);
+    setPhoto(photo.uri);
+    setLocation(location);
+  };
+
+  const handleSubmit = () => {
+    // console.log(`${photoName} ${locationName}`);
+    navigation.navigate("Posts", { photo, photoName, location, locationName });
+    resetState();
+  };
+
+  // console.log(location);
+
+  const deletePhoto = () => {
+    resetState();
+  };
+
   return (
-    <View style={createPostStyled.container}>
-      <View style={createPostStyled.photoBlock}>
-        <View style={createPostStyled.ellipse}>
-          <FontAwesome name="camera" size={18} color="#BDBDBD" />
-        </View>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={createPostStyled.container}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+          style={{ flex: 1 }}
+          keyboardVerticalOffset={-100}
+        >
+          <Camera style={createPostStyled.camera} ref={setCamera}>
+            <View style={createPostStyled.photoBlock}>
+              {photo && <Image source={{ uri: photo }} style={createPostStyled.photo} />}
+              <TouchableOpacity
+                style={
+                  photo
+                    ? [createPostStyled.ellipse, { backgroundColor: "rgba(255, 255, 255, 0.3)" }]
+                    : createPostStyled.ellipse
+                }
+                onPress={takePhoto}
+              >
+                <FontAwesome name="camera" size={18} color="#BDBDBD" />
+              </TouchableOpacity>
+            </View>
+          </Camera>
+
+          <Text style={createPostStyled.uploadPhoto}>
+            {photo ? "Редагувати фото" : "Завантажте фото"}
+          </Text>
+
+          <TextInput
+            style={createPostStyled.postInput}
+            placeholder="Назва..."
+            value={photoName}
+            onChangeText={setPhotoName}
+          />
+          <View>
+            <TextInput
+              style={[createPostStyled.postInputPlace, createPostStyled.postInput]}
+              placeholder="Місцевість..."
+              value={locationName}
+              onChangeText={setLocationName}
+            />
+
+            <Feather name="map-pin" size={24} style={createPostStyled.mapIcon} />
+          </View>
+          <Pressable
+            onPress={handleSubmit}
+            style={() => [
+              {
+                backgroundColor: photo && photoName && locationName ? "#FF6C00" : "#F6F6F6",
+              },
+
+              createPostStyled.button,
+            ]}
+            disabled={photo && photoName && locationName ? false : true}
+          >
+            <Text
+              style={
+                photo && photoName && locationName
+                  ? [createPostStyled.buttonTextCreate, { color: "#fff" }]
+                  : createPostStyled.buttonTextCreate
+              }
+            >
+              Опубліковати
+            </Text>
+          </Pressable>
+
+          {photo && photoName && locationName ? (
+            <TrashButton toogle={false} color="#FFFFFF" bcolor="#FF6C00" del={deletePhoto} />
+          ) : (
+            <TrashButton toogle={true} color="#BDBDBD" bcolor="#F6F6F6" />
+          )}
+        </KeyboardAvoidingView>
       </View>
-      <Text style={createPostStyled.uploadPhoto}>Завантажте фото</Text>
-      <TextInput
-        style={createPostStyled.postInput}
-        placeholder="Назва..."
-        inlineImageLeft="./img/ProfileImg/romanova.png"
-      />
-      <View style={{ position: "relative" }}>
-        <TextInput
-          style={[createPostStyled.postInputPlace, createPostStyled.postInput]}
-          placeholder="Місцевість..."
-        />
-        <Feather
-          name="map-pin"
-          size={24}
-          color="#EBEBEB"
-          style={{ position: "absolute", top: "40%" }}
-        />
-      </View>
-      <Pressable
-        // onPress={handleSubmit}
-        style={({ pressed }) => [
-          //   {
-          //     backgroundColor: pressed ? "#ff6a006c" : "F6F6F6",
-          //   },
-          createPostStyled.button,
-        ]}
-      >
-        <Text style={createPostStyled.buttonTextCreate}>Опубліковати</Text>
-      </Pressable>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -52,18 +172,20 @@ const createPostStyled = StyleSheet.create({
     marginHorizontal: 16,
   },
   photoBlock: {
-    display: "flex",
     justifyContent: "center",
     width: "100%",
     height: 240,
-    marginTop: 32,
 
-    backgroundColor: "#F6F6F6",
     borderColor: "#E8E8E8",
     borderRadius: 8,
     borderWidth: 1,
   },
+  photo: {
+    position: "relative",
+    height: "100%",
+  },
   ellipse: {
+    position: "absolute",
     display: "flex",
     justifyContent: "center",
     alignSelf: "center",
@@ -73,6 +195,17 @@ const createPostStyled = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 30,
   },
+  camera: {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    height: 240,
+    marginTop: 32,
+    borderColor: "#E8E8E8",
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+
   uploadPhoto: {
     marginTop: 8,
     marginBottom: 16,
@@ -91,20 +224,25 @@ const createPostStyled = StyleSheet.create({
   postInputPlace: {
     paddingLeft: 28,
   },
+
   button: {
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 16,
     paddingHorizontal: 32,
     marginTop: 32,
-
     borderRadius: 100,
-    backgroundColor: "#F6F6F6",
   },
+
   buttonTextCreate: {
     fontFamily: "Roboto_400Regular",
     fontSize: 16,
     lineHeight: 19,
     color: "#BDBDBD",
+  },
+  mapIcon: {
+    position: "absolute",
+    top: "40%",
+    color: "#EBEBEB",
   },
 });

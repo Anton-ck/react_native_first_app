@@ -2,6 +2,7 @@ import { View, Text, Image, StyleSheet, ImageBackground, FlatList } from "react-
 import { Feather, AntDesign } from "@expo/vector-icons";
 import BG from "../../assets/img/background.png";
 import LogoutBtn from "./LogoutButton";
+import { useState } from "react";
 
 const DATA = [
   {
@@ -78,6 +79,8 @@ const ProfileContainer = () => (
 );
 
 const Profile = () => {
+  const [posts, setPosts] = useState([]);
+  const [commentsCount, setCommentsCount] = useState(0);
   return (
     <View style={profileDataStyled.container}>
       <ImageBackground source={BG} resizeMode="cover" style={profileDataStyled.backgroundImage}>
@@ -85,6 +88,7 @@ const Profile = () => {
           <View>
             <ProfileContainer />
             <FlatList
+              showsVerticalScrollIndicator={false}
               data={DATA}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
@@ -116,6 +120,7 @@ const profileDataStyled = StyleSheet.create({
     justifyContent: "flex-end",
   },
   avatar: {
+    flex: 1,
     alignSelf: "center",
     position: "absolute",
     width: 120,

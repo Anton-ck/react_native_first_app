@@ -1,12 +1,13 @@
 import { View, Text, StyleSheet } from "react-native";
 import CreatePost from "../Components/CreatePost";
-import TrashButton from "../Components/TrashButton";
+
+
 
 const CreatePostsScreen = () => {
   return (
     <View style={createPostsStyled.container}>
       <CreatePost />
-      <TrashButton />
+
     </View>
   );
 };

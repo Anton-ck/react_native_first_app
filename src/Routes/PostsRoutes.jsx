@@ -8,6 +8,7 @@ import CreatePostsScreen from "../../src/Screens/CreatePostsScreen";
 import ProfileScreen from "../Screens/ProfileScreen";
 
 import LogoutBtn from "../Components/LogoutButton";
+import CommentsScreen from "../Screens/CommentsScreen";
 
 const Tab = createBottomTabNavigator();
 
