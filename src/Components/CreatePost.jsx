@@ -69,19 +69,13 @@ const CreatePost = () => {
   }
 
   const takePhoto = async () => {
-    if (photo || location !== null) {
-      setPhoto(null);
-      setLocation(null);
-      return;
-    } else {
-      setIsLoading(true);
-      const photo = await camera.takePictureAsync();
-      const location = await Location.getCurrentPositionAsync();
+    setIsLoading(true);
+    const photo = await camera.takePictureAsync();
+    const location = await Location.getCurrentPositionAsync();
 
-      setPhoto(photo.uri);
-      setLocation(location);
-      setIsLoading(false);
-    }
+    setPhoto(photo.uri);
+    setLocation(location);
+    setIsLoading(false);
   };
 
   const handleSubmit = () => {
@@ -90,7 +84,7 @@ const CreatePost = () => {
     resetState();
   };
 
-  const deletePhoto = () => resetState();
+  const deletePhoto = () => setPhoto(null);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -100,28 +94,26 @@ const CreatePost = () => {
           style={{ flex: 1 }}
           keyboardVerticalOffset={-100}
         >
-          {isLoading ? (
-            <View style={createPostStyled.loaderContainer}>
-              <Text style={createPostStyled.loaderText}>Робимо ваше фото 😁</Text>
-              <ActivityIndicator size="large" color="#FF6C00" />
-            </View>
-          ) : (
-            <Camera style={createPostStyled.camera} ref={setCamera}>
-              <View style={createPostStyled.photoBlock}>
-                {photo && <Image source={{ uri: photo }} style={createPostStyled.photo} />}
-                <TouchableOpacity
-                  style={
-                    photo
-                      ? [createPostStyled.ellipse, createPostStyled.ellipsePhoto]
-                      : createPostStyled.ellipse
-                  }
-                  onPress={takePhoto}
-                >
+          <Camera style={createPostStyled.camera} ref={setCamera}>
+            <View style={createPostStyled.photoBlock}>
+              {photo && <Image source={{ uri: photo }} style={createPostStyled.photo} />}
+              <TouchableOpacity
+                style={
+                  photo
+                    ? [createPostStyled.ellipse, createPostStyled.ellipsePhoto]
+                    : createPostStyled.ellipse
+                }
+                onPress={photo ? deletePhoto : takePhoto}
+                disabled={isLoading ? false : true}
+              >
+                {isLoading ? (
+                  <ActivityIndicator size="small" color="#FF6C00" />
+                ) : (
                   <FontAwesome name="camera" size={18} color="#BDBDBD" />
-                </TouchableOpacity>
-              </View>
-            </Camera>
-          )}
+                )}
+              </TouchableOpacity>
+            </View>
+          </Camera>
 
           <Text style={createPostStyled.uploadPhoto}>
             {photo ? "Редагувати фото" : "Завантажте фото"}
@@ -163,8 +155,8 @@ const CreatePost = () => {
               Опубліковати
             </Text>
           </Pressable>
-          {photo && photoName && locationName ? (
-            <TrashButton toogle={false} color="#FFFFFF" bcolor="#FF6C00" del={deletePhoto} />
+          {photo || photoName || locationName ? (
+            <TrashButton toogle={false} color="#FFFFFF" bcolor="#FF6C00" del={resetState} />
           ) : (
             <TrashButton toogle={true} color="#BDBDBD" bcolor="#F6F6F6" />
           )}
