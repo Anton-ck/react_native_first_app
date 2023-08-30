@@ -112,7 +112,7 @@ const RegScreen = () => {
                   <Text style={regStyled.text}>Зареєстуватися</Text>
                 </Pressable>
 
-                <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
+                <View style={regStyled.textQuestionAccountView}>
                   <Text
                     style={[regStyled.textQuestionAccount, { marginLeft: 5 }]}
                     onPress={() => {
@@ -215,6 +215,7 @@ const regStyled = StyleSheet.create({
     lineHeight: 19,
     color: "#fff",
   },
+  textQuestionAccountView: { display: "flex", flexDirection: "row", justifyContent: "center" },
   textQuestionAccount: {
     fontFamily: "Roboto_400Regular",
     fontSize: 16,

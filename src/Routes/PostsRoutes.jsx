@@ -8,7 +8,6 @@ import CreatePostsScreen from "../../src/Screens/CreatePostsScreen";
 import ProfileScreen from "../Screens/ProfileScreen";
 
 import LogoutBtn from "../Components/LogoutButton";
-import CommentsScreen from "../Screens/CommentsScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -50,8 +49,10 @@ export const PostsTab = () => {
       <Tab.Screen
         name="CreatePosts"
         component={CreatePostsScreen}
+        unmountOnBlur={true}
         options={{
           title: "Створити публікацію",
+          unmountOnBlur: true,
           tabBarStyle: { display: "none" },
           tabBarIcon: ({ color }) => <AntDesign name="plus" size={16} color={color} />,
           headerLeft: () => {

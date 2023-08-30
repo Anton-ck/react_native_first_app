@@ -11,9 +11,10 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Camera, CameraType } from "expo-camera";
+import { Camera } from "expo-camera";
 import { FontAwesome, Feather } from "@expo/vector-icons";
 import { useState, useEffect } from "react";
 import * as Location from "expo-location";
@@ -26,9 +27,8 @@ const CreatePost = () => {
   const [photoName, setPhotoName] = useState(null);
   const [location, setLocation] = useState(null);
   const [locationName, setLocationName] = useState(null);
-  // const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
-
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
 
   const resetState = () => {
@@ -60,31 +60,37 @@ const CreatePost = () => {
   if (!permission.granted) {
     return (
       <View>
-        <Text style={{ textAlign: "center" }}>We need your permission to show the camera</Text>
+        <Text style={createPostStyled.premissionText}>
+          We need your permission to show the camera
+        </Text>
         <Button onPress={requestPermission} title="grant permission" />
       </View>
     );
   }
 
   const takePhoto = async () => {
-    const photo = await camera.takePictureAsync();
-    const location = await Location.getCurrentPositionAsync();
-    // console.log(location);
-    setPhoto(photo.uri);
-    setLocation(location);
+    if (photo || location !== null) {
+      setPhoto(null);
+      setLocation(null);
+      return;
+    } else {
+      setIsLoading(true);
+      const photo = await camera.takePictureAsync();
+      const location = await Location.getCurrentPositionAsync();
+
+      setPhoto(photo.uri);
+      setLocation(location);
+      setIsLoading(false);
+    }
   };
 
   const handleSubmit = () => {
-    // console.log(`${photoName} ${locationName}`);
+    console.log(`${photoName} ${locationName}`);
     navigation.navigate("Posts", { photo, photoName, location, locationName });
     resetState();
   };
 
-  // console.log(location);
-
-  const deletePhoto = () => {
-    resetState();
-  };
+  const deletePhoto = () => resetState();
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -94,26 +100,32 @@ const CreatePost = () => {
           style={{ flex: 1 }}
           keyboardVerticalOffset={-100}
         >
-          <Camera style={createPostStyled.camera} ref={setCamera}>
-            <View style={createPostStyled.photoBlock}>
-              {photo && <Image source={{ uri: photo }} style={createPostStyled.photo} />}
-              <TouchableOpacity
-                style={
-                  photo
-                    ? [createPostStyled.ellipse, { backgroundColor: "rgba(255, 255, 255, 0.3)" }]
-                    : createPostStyled.ellipse
-                }
-                onPress={takePhoto}
-              >
-                <FontAwesome name="camera" size={18} color="#BDBDBD" />
-              </TouchableOpacity>
+          {isLoading ? (
+            <View style={createPostStyled.loaderContainer}>
+              <Text style={createPostStyled.loaderText}>Робимо ваше фото 😁</Text>
+              <ActivityIndicator size="large" color="#FF6C00" />
             </View>
-          </Camera>
+          ) : (
+            <Camera style={createPostStyled.camera} ref={setCamera}>
+              <View style={createPostStyled.photoBlock}>
+                {photo && <Image source={{ uri: photo }} style={createPostStyled.photo} />}
+                <TouchableOpacity
+                  style={
+                    photo
+                      ? [createPostStyled.ellipse, createPostStyled.ellipsePhoto]
+                      : createPostStyled.ellipse
+                  }
+                  onPress={takePhoto}
+                >
+                  <FontAwesome name="camera" size={18} color="#BDBDBD" />
+                </TouchableOpacity>
+              </View>
+            </Camera>
+          )}
 
           <Text style={createPostStyled.uploadPhoto}>
             {photo ? "Редагувати фото" : "Завантажте фото"}
           </Text>
-
           <TextInput
             style={createPostStyled.postInput}
             placeholder="Назва..."
@@ -151,7 +163,6 @@ const CreatePost = () => {
               Опубліковати
             </Text>
           </Pressable>
-
           {photo && photoName && locationName ? (
             <TrashButton toogle={false} color="#FFFFFF" bcolor="#FF6C00" del={deletePhoto} />
           ) : (
@@ -166,6 +177,9 @@ const CreatePost = () => {
 export default CreatePost;
 
 const createPostStyled = StyleSheet.create({
+  premissionText: {
+    textAlign: "center",
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -195,6 +209,9 @@ const createPostStyled = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 30,
   },
+  ellipsePhoto: {
+    backgroundColor: "rgba(255, 255, 255, 0.3)",
+  },
   camera: {
     display: "flex",
     justifyContent: "center",
@@ -202,6 +219,15 @@ const createPostStyled = StyleSheet.create({
     height: 240,
     marginTop: 32,
     borderColor: "#E8E8E8",
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+  loaderContainer: {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    height: 240,
+    marginTop: 32,
     borderRadius: 8,
     borderWidth: 1,
   },
@@ -244,5 +270,12 @@ const createPostStyled = StyleSheet.create({
     position: "absolute",
     top: "40%",
     color: "#EBEBEB",
+  },
+
+  loaderText: {
+    textAlign: "center",
+    fontFamily: "Roboto_300Light",
+    fontSize: 20,
+    marginBottom: 15,
   },
 });

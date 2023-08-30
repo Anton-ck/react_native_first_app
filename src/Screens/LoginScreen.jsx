@@ -100,7 +100,7 @@ const LoginScreen = () => {
                     style={({ pressed }) => [
                       { display: "flex", flexDirection: "row" },
                       {
-                        backgroundColor: pressed ? "rgb(210, 230, 255)" : "white",
+                        backgroundColor: pressed ? "rgb(210, 230, 255)" : "#fff",
                       },
                     ]}
                   >

@@ -5,7 +5,6 @@ import { useNavigation } from "@react-navigation/native";
 
 export const Post = ({ image, pictureName, locationCoords, locationName, commentsCount }) => {
   const navigation = useNavigation();
-  console.log(locationCoords);
 
   return (
     <View style={postStyled.postContainer}>
