@@ -104,7 +104,7 @@ const CreatePost = () => {
                     : createPostStyled.ellipse
                 }
                 onPress={photo ? deletePhoto : takePhoto}
-                disabled={isLoading ? false : true}
+                disabled={isLoading ? true : false}
               >
                 {isLoading ? (
                   <ActivityIndicator size="small" color="#FF6C00" />
